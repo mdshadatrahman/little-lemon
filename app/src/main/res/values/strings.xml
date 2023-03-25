@@ -3,5 +3,6 @@
     <string name="little_lemon">Little Lemon</string>
     <string name="order">Order</string>
     <string name="chicago">Chicago</string>
-    <string name="description_one">we are family owned mediaterranean restaurant, food recipes served with a modern twist</string>
+    <string name="description_one">we are family owned megasteradian restaurant, food recipes served with a modern twist</string>
+    <string name="order_take_away">Order Take Away</string>
 </resources>
