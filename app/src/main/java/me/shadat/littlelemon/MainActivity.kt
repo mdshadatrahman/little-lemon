@@ -1,37 +1,63 @@
 package me.shadat.littlelemon
 
 
-import android.nfc.Tag
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            UpperPanel()
+            var count by rememberSaveable() {
+                mutableStateOf(0)
+            }
+//            UpperPanel()
+            ItemOrder(count, { count++ }, { count-- })
+        }
+    }
+
+    @Composable
+    private fun ItemOrder(count: Int, onIncrement: () -> Unit, onDecrement: () -> Unit) {
+
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ){
+            Text(text = "Greek Salad", fontSize = 30.sp)
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(onClick = { onDecrement() }) {
+                    Icon(imageVector = Icons.Default.Close, contentDescription = "remove")
+                }
+
+                Text(
+                    text = "$count",
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(8.dp),
+                )
+
+                IconButton(onClick = { onIncrement() }) {
+                    Icon(imageVector = Icons.Default.Add, contentDescription = "add")
+                }
+            }
         }
     }
 }
