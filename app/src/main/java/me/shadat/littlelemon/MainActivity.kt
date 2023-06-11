@@ -1,7 +1,9 @@
 package me.shadat.littlelemon
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.provider.SyncStateContract.Columns
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -22,42 +24,27 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            var count by rememberSaveable() {
-                mutableStateOf(0)
-            }
-//            UpperPanel()
-            ItemOrder(count, { count++ }, { count-- })
+            HomeScreen()
         }
     }
+}
 
-    @Composable
-    private fun ItemOrder(count: Int, onIncrement: () -> Unit, onDecrement: () -> Unit) {
-
-
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@Composable
+fun HomeScreen() {
+    val scaffoldState = rememberScaffoldState()
+    val scope = rememberCoroutineScope()
+    Scaffold(
+        scaffoldState = scaffoldState,
+        drawerContent = { DrawerPanel(scaffoldState = scaffoldState, scope = scope) },
+        topBar = {
+            TopAppBar(scaffoldState = scaffoldState, scope = scope)
+        }
+    ) {
+        Column (
+            modifier = Modifier.padding(8.dp),
         ){
-            Text(text = "Greek Salad", fontSize = 30.sp)
-            Row(
-                Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                IconButton(onClick = { onDecrement() }) {
-                    Icon(imageVector = Icons.Default.Close, contentDescription = "remove")
-                }
-
-                Text(
-                    text = "$count",
-                    fontSize = 28.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(8.dp),
-                )
-
-                IconButton(onClick = { onIncrement() }) {
-                    Icon(imageVector = Icons.Default.Add, contentDescription = "add")
-                }
-            }
+            UpperPanel()
         }
     }
 }
